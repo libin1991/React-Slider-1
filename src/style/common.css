@@ -1,0 +1,40 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+ul{
+  transition: left 1s;
+}
+li{
+  list-style: none;
+
+  float: left;
+  overflow: hidden;
+  height: 100vh;
+}
+img{
+  width: 100%;
+}
+.slider-arrow {
+  display: inline-block;
+  color: #fff;
+  font-size: 50px;
+  position: absolute;
+  top: 50%;
+  margin-top: -50px;
+  z-index: 100;
+  padding: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.slider-arrow:hover {
+  background: rgba(0,0,0,.2);
+}
+
+.slider-arrow-right {
+  right: 0;
+}
+.slider-arrow-left {
+  left: 0;
+}
