@@ -1,67 +1,52 @@
 import React from 'react';
+import Img1 from '../images/demo1.jpg';
+import Img2 from '../images/demo2.jpg';
+import Img3 from '../images/demo3.jpg';
 
-import Arrows from './Arrows.js';
-
-class Slide extends React.Component {
-  constructor(){
-    super();
-    this.state={
-      nowLocal:0
+class Slider extends React.Component {
+    constructor(){
+        super();
+        this.state={
+            nowLocal:0
+        }
     }
-  }
-  turn(n) {
-    console.log(n);
-    var _n = this.state.nowLocal + n;
-    if(_n < 0) {
-      _n = _n + this.props.items.length;
+    turn(){
+        if(this.state.nowLocal<2){
+            this.setState({
+                nowLocal:this.state.nowLocal+1
+            })
+        }else{
+            this.setState({
+                nowLocal:0
+            })
+        }
+        console.log(this.state.nowLocal)
     }
-    if(_n >= this.props.items.length) {
-      _n = _n - this.props.items.length;
+    componentDidMount(){
+        this.interval=setInterval(this.turn.bind(this),1000)
     }
-    this.setState({nowLocal: _n});
-  }
-  // 开始自动轮播
-  goPlay() {
-    this.autoPlayFlag = setInterval(() => {
-      this.turn(1);
-    }, 3000);
-  }
-  // 暂停自动轮播
-  pausePlay() {
-    clearInterval(this.autoPlayFlag);
-  }
-  componentDidMount() {
-    this.goPlay();
-  }
-  render () {
-    let styles={
-      root:{
-        width:'100vw',
-        height:'100vh',
-        overflow:'hidden',
-        position:'relative'
-      },
-      ul:{
-        width:this.props.items.length*100 + '%',
-        position:'relative',
-        left: -100 * this.state.nowLocal + "%",
-      },
-      li:{
-        width:100/this.props.items.length + '%',
-      }
+    pausePlay(){
+        clearInterval(this.interval)
     }
-    let imgNode=this.props.items.map(function (item,index) {
-      return <li key={index} style={styles.li}><img src={item} key={index} /></li>
-    })
-    return(
-      <div style={styles.root}>
-        <ul style={styles.ul} onMouseOver={this.pausePlay.bind(this)} onMouseOut={this.goPlay.bind(this)}>
-          {imgNode}
-        </ul>
-        <Arrows turn={this.turn.bind(this)}/>
-      </div>
-    )
+    render(){
+        let styles={
+            ul:{
+                left:this.state.nowLocal * -100 + '%'
+            }
+        }
+        return(
+            <div className='box'>
+                <ul style={styles.ul}
+                    onMouseOver={this.pausePlay.bind(this)}
+                    onMouseOut={this.componentDidMount.bind(this)}
+                >
+                    <li><img src={Img1} /></li>
+                    <li><img src={Img2} /></li>
+                    <li><img src={Img3} /></li>
+                </ul>
+            </div>
+      )
   }
 }
 
-export default Slide;
+export default Slider;
